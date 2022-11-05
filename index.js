@@ -3,6 +3,7 @@
 
 // llamamos a las dependencias
 const express = require('express');
+const cors = require('cors');
 const routerApi = require('./routes');//no hace falta colocar el archivo index
 
 const { logErrors, errorHandler, boomErrorHandler } = require('./middleware/error.handler');
@@ -12,7 +13,19 @@ const app = express(); //epress va a generar un app
 const port = 3000; //puerto 3000
 
 //con esto podemos recivir informacion de tipo json que nos envian con post
-app.use(express.json());//midewor
+app.use(express.json());//middleware
+
+const whitelist = ['https://localhost:8080', 'https://myapp.co'];
+const options = {
+  origin: (origin, callback) => {
+    if(whitelist.includes(origin)){//si el origin esta incluido
+      callback(null, true)//no hay ningun error y el acceso permitido
+    } else {
+      callback(new Error('No permitido'))//no se permite origenes desconocidos
+    }
+  }
+}
+app.use(cors());
 
 app.get('/', (req, res) => {//parametro una ruta y un callback y este tiene la peticion y la respuesta
   res.send('Hola mi server en express');
