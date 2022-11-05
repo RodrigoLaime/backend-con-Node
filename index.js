@@ -18,14 +18,14 @@ app.use(express.json());//middleware
 const whitelist = ['https://localhost:8080', 'https://myapp.co'];
 const options = {
   origin: (origin, callback) => {
-    if(whitelist.includes(origin)){//si el origin esta incluido
+    if(whitelist.includes(origin)|| !origin){//si el origin esta incluido
       callback(null, true)//no hay ningun error y el acceso permitido
     } else {
       callback(new Error('No permitido'))//no se permite origenes desconocidos
     }
   }
 }
-app.use(cors());
+app.use(cors(options));
 
 app.get('/', (req, res) => {//parametro una ruta y un callback y este tiene la peticion y la respuesta
   res.send('Hola mi server en express');
