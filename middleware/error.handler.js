@@ -8,10 +8,10 @@ function errorHandler(err, req, res, next) {//para crear un formato de error cad
   res.status(500).json({
     message: err.message,
     stack: err.stack //indica que lugar donde ocurrio el error
-  })
+  });
 }
 function boomErrorHandler(err, req, res, next) {
-  if (err.idBoom) {//si es de tipo boom
+  if (err.isBoom) {//si es de tipo boom
     const { output } = err;
     res.status(output.statusCode).json(output.payload);
   }
