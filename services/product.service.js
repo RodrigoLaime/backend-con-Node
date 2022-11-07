@@ -34,14 +34,14 @@ class ProductsService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.products)
-      }, 5000);
+      }, 3000);
     })
   }
 
   async findOne(id) {
     const product = this.products.find(item => item.id === id);
     if (!product) {
-      throw boom.notFount('product not found');
+      throw boom.notFound('product not found');
     }
     if (product.isBlock) {
       throw boom.conflict('product is block');
@@ -52,7 +52,7 @@ class ProductsService {
   async update(id, changes) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
-      throw boom.notFount('product not found');//la dependecia boom permite explicar de mejor manera los statuscode
+      throw boom.notFound('product not found');//la dependecia boom permite explicar de mejor manera los statuscode
     }
     const product = this.products[index];
     this.products[index] = {
@@ -65,7 +65,7 @@ class ProductsService {
   async delete(id) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
-      throw boom.notFount('product not found');
+      throw boom.notFound('product not found');
     }
     this.products.splice(index, 1);
     return { id };
